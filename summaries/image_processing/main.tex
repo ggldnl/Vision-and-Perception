@@ -380,6 +380,58 @@ A 2D filter is \textbf{separable} if it can be written as the product of a colum
 
 It is always convenient to use separable filters.
 
+\section*{Box filter }
+
+The box filter is the simplest kind of filter we can imagine: it simply takes the average of all the pixels under the kernel area. It is linear (it fulfills both the superposition and the homogeneity principles) and separable (can be written as a product of of a column and a row vector). 
+
+The box filter takes the average of the pixels under the kernel area. By doing so, it smoothes out the image, reducing noise. It helps suppressing sharp transitions, however it also tends to blur edges and fine details along with the noise, which may not be desirable in certain applications.
+
+\vspace{0.5cm}
+
+Convolution between an image patch and the box filter:
+\begin{center}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (1.5, 0.5) {1};
+        \node[font = {\large}, black] at (2.5, 0.5) {8};
+        \node[font = {\large}, black] at (0.5, 1.5) {4};
+        \node[font = {\large}, black] at (1.5, 1.5) {6};
+        \node[font = {\large}, black] at (2.5, 1.5) {1};
+        \node[font = {\large}, black] at (0.5, 2.5) {10};
+        \node[font = {\large}, black] at (1.5, 2.5) {5};
+        \node[font = {\large}, black] at (2.5, 2.5) {3};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (1.5, 0.5) {1};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
+        \node[font = {\large}, black] at (0.5, 1.5) {1};
+        \node[font = {\large}, black] at (1.5, 1.5) {1};
+        \node[font = {\large}, black] at (2.5, 1.5) {1};
+        \node[font = {\large}, black] at (0.5, 2.5) {1};
+        \node[font = {\large}, black] at (1.5, 2.5) {1};
+        \node[font = {\large}, black] at (2.5, 2.5) {1};
+        
+        \node[font = {\large}, black] at (-0.6, 1.5) {*\ -1/9};
+
+        \draw [-stealth](3.25,1.5) -- (3.75,1.5);
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+        \node[font = {\large}, black] at (0.5, 0.5) {};
+        \node[font = {\large}, black] at (1.5, 0.5) {};
+        \node[font = {\large}, black] at (2.5, 0.5) {};
+        \node[font = {\large}, black] at (0.5, 1.5) {};
+        \node[font = {\large}, black] at (1.5, 1.5) {4.3};
+        \node[font = {\large}, black] at (2.5, 1.5) {};
+        \node[font = {\large}, black] at (0.5, 2.5) {};
+        \node[font = {\large}, black] at (1.5, 2.5) {};
+        \node[font = {\large}, black] at (2.5, 2.5) {};
+    \end{tikzpicture}
+\end{center}
+
 \newpage
 
 \section*{Gaussian filter}
@@ -548,10 +600,10 @@ Edges are important for two main reasons:
 
 \begin{itemize}
     \item Most semantic and shape information can be deduced from them, so we can perform object recognition and analyze perspectives and geometry of an image;
-    \item They are a more compact representation that pixels;
+    \item They are a more compact representation than pixels;
 \end{itemize}
 
-How can we find discontinuities? Since the image can be seen as a function, we can take the derivatives: derivatives are large at discontinuities.
+How can we find discontinuities? Since the image can be seen as a function, we can take its derivative: derivatives are large at discontinuities.
 How can we differentiate a discrete image (or any other discrete signal)? We can use finite differences:
 
 \vspace{0.5cm}
@@ -577,13 +629,13 @@ For discrete signals, remove the limit and set $h = 2$:
 
 \vspace{0.5cm}
 
-Same thing for 2D discrete functions: $f(x + 1, y + 1)$ represents an adjacent (lower right diagonal) pixel with respect to $f(x, y)$.
+Same thing for 2D discrete functions: $f(x + 1, y + 1)$ represents an adjacent pixel, the lower right diagonal one, with respect to $f(x, y)$, $f(x - 1, y)$ the left one and so on.
 
 \newpage
 
 \section*{Image gradients}
 
-Image gradients are representations of the rate of change in the intensity or color in an image in a particular direction (e.g. x or y)
+Image gradients are representations of the rate of change in the intensity or color in an image in a particular direction (e.g. $x$ or $y$)
 
 Gradients are useful in various image processing tasks such as edge detection, feature extraction, and image segmentation. They provide information about the structure and properties of an image, and are used to identify areas of high intensity or color change, which correspond to image features like edges and corners.
 
