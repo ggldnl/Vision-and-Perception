@@ -26,6 +26,9 @@
 % highlighted code
 \usepackage{minted}
 
+% block comments
+\usepackage{comment}
+
 \title{\textbf{Vision \& Perception}}
 \author{Daniel Gigliotti}
 \date{}
@@ -664,15 +667,15 @@ A great explanation on how to compute the Sobel filter can be found \href{https:
 \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
         \node[font = {\large}, black] at (1.5, 2.5) {0};
-        \node[font = {\large}, black] at (2.5, 2.5) {-1};
-        \node[font = {\large}, black] at (0.5, 1.5) {2};
+        \node[font = {\large}, black] at (2.5, 2.5) {1};
+        \node[font = {\large}, black] at (0.5, 1.5) {-2};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {-2};
-        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (2.5, 1.5) {2};
+        \node[font = {\large}, black] at (0.5, 0.5) {-1};
         \node[font = {\large}, black] at (1.5, 0.5) {0};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
     \end{tikzpicture}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (1, 0) grid (2,3);
@@ -690,13 +693,13 @@ A great explanation on how to compute the Sobel filter can be found \href{https:
     \end{tikzpicture}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 2) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
 
 
         \node[font = {\large}, black] at (1.5, 2.5) {0};
 
 
-        \node[font = {\large}, black] at (2.5, 2.5) {-1};
+        \node[font = {\large}, black] at (2.5, 2.5) {1};
 
         
         \node[font = {\large}, black] at (-0.5, 2.5) {*};
@@ -705,32 +708,32 @@ A great explanation on how to compute the Sobel filter can be found \href{https:
 \end{center}
 
 \begin{center}
-    Horizontal Sobel filter
+    Vertical Sobel filter, finds changes (edges) in x direction, thus vertical edges
 \end{center}
 
 \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {2};
-        \node[font = {\large}, black] at (2.5, 2.5) {1};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {-2};
+        \node[font = {\large}, black] at (2.5, 2.5) {-1};
         \node[font = {\large}, black] at (0.5, 1.5) {0};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
         \node[font = {\large}, black] at (2.5, 1.5) {0};
-        \node[font = {\large}, black] at (0.5, 0.5) {-1};
-        \node[font = {\large}, black] at (1.5, 0.5) {-2};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
+        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (1.5, 0.5) {2};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
     \end{tikzpicture}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (1, 0) grid (2,3);
 
-        \node[font = {\large}, black] at (1.5, 2.5) {1};
+        \node[font = {\large}, black] at (1.5, 2.5) {-1};
 
 
         \node[font = {\large}, black] at (1.5, 1.5) {0};
 
 
-        \node[font = {\large}, black] at (1.5, 0.5) {-1};
+        \node[font = {\large}, black] at (1.5, 0.5) {1};
 
         
         \node[font = {\large}, black] at (-0.5, 1.5) {=};
@@ -752,14 +755,42 @@ A great explanation on how to compute the Sobel filter can be found \href{https:
 \end{center}
 
 \begin{center}
-    Vertical Sobel filter
+    Horizontal Sobel filter, finds changes (edges) in y direction, thus horizontal edges
 \end{center}
 
 \newpage
 
 \begin{itemize}
     \item \textbf{Horizontal Sobel filter} $\rightarrow$ when this filter is convolved with an image, it computes the horizontal gradient (it highlights the edges in the image that have a strong change in intensity in the horizontal direction); this means that it can be used to detect edges that are oriented horizontally in the image;
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[step=1cm,color=black] (0, 0) grid (3,3);
+            \node[font = {\large}, black] at (0.5, 2.5) {-1};
+            \node[font = {\large}, black] at (1.5, 2.5) {-2};
+            \node[font = {\large}, black] at (2.5, 2.5) {-1};
+            \node[font = {\large}, black] at (0.5, 1.5) {0};
+            \node[font = {\large}, black] at (1.5, 1.5) {0};
+            \node[font = {\large}, black] at (2.5, 1.5) {0};
+            \node[font = {\large}, black] at (0.5, 0.5) {1};
+            \node[font = {\large}, black] at (1.5, 0.5) {2};
+            \node[font = {\large}, black] at (2.5, 0.5) {1};
+        \end{tikzpicture}
+    \end{center}
     \item \textbf{Vertical Sobel filter} $\rightarrow$ when this filter is convolved with an image, it computes the vertical gradient (it highlights the edges in the image that have a strong change in intensity in the vertical direction); this means that it can be used to detect edges that are oriented vertically in the image;
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[step=1cm,color=black] (0, 0) grid (3,3);
+            \node[font = {\large}, black] at (0.5, 2.5) {-1};
+            \node[font = {\large}, black] at (1.5, 2.5) {0};
+            \node[font = {\large}, black] at (2.5, 2.5) {1};
+            \node[font = {\large}, black] at (0.5, 1.5) {-2};
+            \node[font = {\large}, black] at (1.5, 1.5) {0};
+            \node[font = {\large}, black] at (2.5, 1.5) {2};
+            \node[font = {\large}, black] at (0.5, 0.5) {-1};
+            \node[font = {\large}, black] at (1.5, 0.5) {0};
+            \node[font = {\large}, black] at (2.5, 0.5) {1};
+        \end{tikzpicture}
+    \end{center}
 \end{itemize}
 
 In practice, these two filters are often used together in a technique called \textbf{Sobel edge detection}. By computing the magnitude of the gradient at each pixel using the horizontal and vertical Sobel filters, we can identify the regions in the image where there is a strong change in intensity in any direction, which are likely to correspond to edges in the image. \textbf{This is a rather naive technique}.
@@ -773,27 +804,27 @@ Depending on how you compute the distance between two pixels, the neighborhood s
 \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {-2};
         \node[font = {\large}, black] at (2.5, 2.5) {-1};
-        \node[font = {\large}, black] at (0.5, 1.5) {2};
-        \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {-2};
-        \node[font = {\large}, black] at (0.5, 0.5) {1};
-        \node[font = {\large}, black] at (1.5, 0.5) {0};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
-    \end{tikzpicture}
-    \begin{tikzpicture}
-        \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {2};
-        \node[font = {\large}, black] at (2.5, 2.5) {1};
         \node[font = {\large}, black] at (0.5, 1.5) {0};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
         \node[font = {\large}, black] at (2.5, 1.5) {0};
+        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (1.5, 0.5) {2};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (2.5, 2.5) {1};
+        \node[font = {\large}, black] at (0.5, 1.5) {-2};
+        \node[font = {\large}, black] at (1.5, 1.5) {0};
+        \node[font = {\large}, black] at (2.5, 1.5) {2};
         \node[font = {\large}, black] at (0.5, 0.5) {-1};
-        \node[font = {\large}, black] at (1.5, 0.5) {-2};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
+        \node[font = {\large}, black] at (1.5, 0.5) {0};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
 
         \node[font = {\large}, black] at (-0.5, 1.5) {};
     \end{tikzpicture}
@@ -806,28 +837,28 @@ Depending on how you compute the distance between two pixels, the neighborhood s
 \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {3};
-        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (0.5, 2.5) {-3};
+        \node[font = {\large}, black] at (1.5, 2.5) {-10};
         \node[font = {\large}, black] at (2.5, 2.5) {-3};
-        \node[font = {\large}, black] at (0.5, 1.5) {10};
-        \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {-10};
-        \node[font = {\large}, black] at (0.5, 0.5) {3};
-        \node[font = {\large}, black] at (1.5, 0.5) {0};
-        \node[font = {\large}, black] at (2.5, 0.5) {-3};
-    \end{tikzpicture}
-    \begin{tikzpicture}
-        \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {3};
-        \node[font = {\large}, black] at (1.5, 2.5) {10};
-        \node[font = {\large}, black] at (2.5, 2.5) {3};
         \node[font = {\large}, black] at (0.5, 1.5) {0};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
         \node[font = {\large}, black] at (2.5, 1.5) {0};
+        \node[font = {\large}, black] at (0.5, 0.5) {3};
+        \node[font = {\large}, black] at (1.5, 0.5) {10};
+        \node[font = {\large}, black] at (2.5, 0.5) {3};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+        \node[font = {\large}, black] at (0.5, 2.5) {-3};
+        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (2.5, 2.5) {3};
+        \node[font = {\large}, black] at (0.5, 1.5) {-10};
+        \node[font = {\large}, black] at (1.5, 1.5) {0};
+        \node[font = {\large}, black] at (2.5, 1.5) {10};
         \node[font = {\large}, black] at (0.5, 0.5) {-3};
-        \node[font = {\large}, black] at (1.5, 0.5) {-10};
-        \node[font = {\large}, black] at (2.5, 0.5) {-3};
-        
+        \node[font = {\large}, black] at (1.5, 0.5) {0};
+        \node[font = {\large}, black] at (2.5, 0.5) {3};
+
         \node[font = {\large}, black] at (-0.5, 1.5) {};
     \end{tikzpicture}
 \end{center}
@@ -839,28 +870,28 @@ Depending on how you compute the distance between two pixels, the neighborhood s
 \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {-1};
         \node[font = {\large}, black] at (2.5, 2.5) {-1};
-        \node[font = {\large}, black] at (0.5, 1.5) {1};
-        \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {-1};
-        \node[font = {\large}, black] at (0.5, 0.5) {1};
-        \node[font = {\large}, black] at (1.5, 0.5) {0};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
-    \end{tikzpicture}
-    \begin{tikzpicture}
-        \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {1};
-        \node[font = {\large}, black] at (2.5, 2.5) {1};
         \node[font = {\large}, black] at (0.5, 1.5) {0};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
         \node[font = {\large}, black] at (2.5, 1.5) {0};
+        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (1.5, 0.5) {1};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (2.5, 2.5) {1};
+        \node[font = {\large}, black] at (0.5, 1.5) {-1};
+        \node[font = {\large}, black] at (1.5, 1.5) {0};
+        \node[font = {\large}, black] at (2.5, 1.5) {1};
         \node[font = {\large}, black] at (0.5, 0.5) {-1};
-        \node[font = {\large}, black] at (1.5, 0.5) {-1};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
-        
+        \node[font = {\large}, black] at (1.5, 0.5) {0};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
+
         \node[font = {\large}, black] at (-0.5, 1.5) {};
     \end{tikzpicture}
 \end{center}
@@ -872,18 +903,18 @@ Depending on how you compute the distance between two pixels, the neighborhood s
 \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (2,2);
-        \node[font = {\large}, black] at (0.5, 1.5) {0};
-        \node[font = {\large}, black] at (1.5, 1.5) {1};
-        \node[font = {\large}, black] at (0.5, 0.5) {-1};
-        \node[font = {\large}, black] at (1.5, 0.5) {0};
-    \end{tikzpicture}
-    \begin{tikzpicture}
-        \draw[step=1cm,color=black] (0, 0) grid (2,2);
         \node[font = {\large}, black] at (0.5, 1.5) {1};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
         \node[font = {\large}, black] at (0.5, 0.5) {0};
         \node[font = {\large}, black] at (1.5, 0.5) {-1};
-        
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (2,2);
+        \node[font = {\large}, black] at (0.5, 1.5) {0};
+        \node[font = {\large}, black] at (1.5, 1.5) {1};
+        \node[font = {\large}, black] at (0.5, 0.5) {-1};
+        \node[font = {\large}, black] at (1.5, 0.5) {0};
+
         \node[font = {\large}, black] at (-0.5, 1.5) {};
     \end{tikzpicture}
 \end{center}
@@ -901,30 +932,30 @@ Depending on how you compute the distance between two pixels, the neighborhood s
     \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {0};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {-2};
         \node[font = {\large}, black] at (2.5, 2.5) {-1};
-        \node[font = {\large}, black] at (0.5, 1.5) {2};
+        \node[font = {\large}, black] at (0.5, 1.5) {0};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {-2};
+        \node[font = {\large}, black] at (2.5, 1.5) {0};
         \node[font = {\large}, black] at (0.5, 0.5) {1};
-        \node[font = {\large}, black] at (1.5, 0.5) {0};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
+        \node[font = {\large}, black] at (1.5, 0.5) {2};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
 
         \node[font = {\large}, black] at (-0.5, 1.5) {$S_x = $};
 
     \end{tikzpicture}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {1};
-        \node[font = {\large}, black] at (1.5, 2.5) {2};
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {0};
         \node[font = {\large}, black] at (2.5, 2.5) {1};
-        \node[font = {\large}, black] at (0.5, 1.5) {0};
+        \node[font = {\large}, black] at (0.5, 1.5) {-2};
         \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {0};
+        \node[font = {\large}, black] at (2.5, 1.5) {2};
         \node[font = {\large}, black] at (0.5, 0.5) {-1};
-        \node[font = {\large}, black] at (1.5, 0.5) {-2};
-        \node[font = {\large}, black] at (2.5, 0.5) {-1};
+        \node[font = {\large}, black] at (1.5, 0.5) {0};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
 
         \node[font = {\large}, black] at (-0.5, 1.5) {$S_y = $};
 
@@ -1015,9 +1046,10 @@ to be grayscale. It consists of 5 steps:
         \item Other pixels are considered as \textbf{non-relevant} for the edge.
     \end{itemize}
     The threshold values are chosen empirically.
-    \item \textbf{Hysteresis}: based on the threshold results, the hysteresis consists of transforming weak pixels into strong ones if and only if at least one of the pixels around the one being processed is a strong one.
-    
+    \item \textbf{Linking}: based on the threshold results, the linking consists in transforming weak pixels into strong ones if and only if at least one of the pixels around the one being processed is a strong one.
 \end{enumerate}
+
+Threshold and linking steps are also referred to as hysteresis.
 
 \newpage
 
@@ -1076,7 +1108,7 @@ We obtain this:
 \includegraphics[width=0.8\textwidth]{images/laplacian_derivative.png}
 \end{center}
 
-We have a \textbf{zero-crossing behaviour at edges}, whilst in with the first derivative we had a peak in the same spot. It is \textbf{easier to search for a zero} than to find a maximum.
+With the second derivative (laplacian) we have a \textbf{zero-crossing behaviour at edges}, whilst in with the first derivative we had a peak in the same spot. It is \textbf{easier to search for a zero} than to find a maximum.
 
 Building off of this procedure we can design an edge detector.
 
@@ -1125,7 +1157,7 @@ The \textbf{Nyquist sampling theory} states that the sample rate needs to be at 
 
 Dealing with images, we can apply a smoothing filter (Gaussian, box, ...) first, then proceed to downsample (throw away half the rows and columns). \\
 
-How much smoothing do we need to avoid aliasing? How many samples do we need to avoid aliasing? \textbf{Enough to reach the Nyquist limit of 2 times the highest frequency reached by the image}. Who can we practically reduce aliasing? By smoothing the signal we remove high frequency components (features) and thus lower the Niquist rate ($\geq$ two times the maximum frequency).
+How much smoothing do we need to avoid aliasing? How many samples do we need to avoid aliasing? \textbf{Enough to reach the Nyquist limit of 2 times the highest frequency reached by the image}. How can we practically reduce aliasing? By smoothing the signal we remove high frequency components (features) and thus lower the Niquist rate ($\geq$ two times the maximum frequency).
 
 \newpage
 
@@ -1147,13 +1179,13 @@ Image pyramids allow us to perform operations on images at different resolutions
 
 \section*{Laplacian Image Pyramid}
 
-Going up a level in a Gaussian Image Pyramid we loose features, high frequency components. Mostly large uniform regions are preserved. It is not possible to reconstruct the original image from the image at the upper level in the pyramid. This is why we introduce the \textbf{Laplacian Image Pyramid}. \\
+Going up a level in a Gaussian Image Pyramid we loose features, high frequency components. Mostly large uniform regions are preserved. It is not possible to reconstruct the original image from the image at the upper level in the pyramid alone. This is why we introduce the \textbf{Laplacian Image Pyramid}. \\
 
 The Laplacian pyramid is constructed by decomposing the original image into a series of bandpass-filtered images, where each image is obtained by subtracting the upsampled version of the next level's image from the current level's image. This difference image is also called \textbf{residual}, as it represents the high-frequency details or edges in the image that were removed by the bandpass filtering. \\
 
 The Laplacian pyramid is typically constructed by first computing a Gaussian pyramid and then subtracting the upsampled version of each Gaussian pyramid level from the next level in the Gaussian pyramid. \\
 
-Thus, the Laplacian pyramid stores both the residual image, which contains the high-frequency details or edges that were removed during the Gaussian filtering, and the downsampled images, which contain the low-frequency information. By storing both the residual and downsampled images, the Laplacian pyramid provides a multi-scale representation of the image that can be used for tasks such as image compression, feature extraction, and image blending.
+Thus, we have both the residual image, which contains the high-frequency details or edges that were removed during the Gaussian filtering, and the downsampled images, which contain the low-frequency information. By storing both the residual and downsampled images we have a multi-scale representation of the image that can be used for tasks such as image compression, feature extraction, and image blending.
 
 \begin{center}
 \includegraphics[width=0.95\textwidth]{images/pyramids.png}
@@ -1185,7 +1217,7 @@ These are the steps to build a Laplacian pyramid:
         \item Apply a Gaussian filter to the up-sampled image.
         \item Subtract the resulting blurred image from the corresponding level of the Gaussian pyramid to get the Laplacian image.        
     \end{itemize}
-    \item Repeat step 2 for all levels of the Gaussian pyramid, except the lowest level, which does not have a corresponding higher level to subtract from.
+    \item Repeat step 2 for all levels of the Gaussian pyramid, except the lowest level, which does not have a corresponding lower level to subtract from.
 \end{enumerate}
 
 \newpage
@@ -1311,7 +1343,7 @@ The inverse Fourier Transform of the product of two Fourier Transforms is the co
     \item High frequencies are far from the center of the frequency transform image. 
 \end{itemize}
 
-Blurring an image involves attenuating or filtering out high-frequency components. The goal is to reduce image noise and/or to reduce the level of detail in the image. In the frequency domain, high-frequency components are far from the center of the image. To apply blurring in the frequency domain, a low-pass filter is first designed. The low-pass filter attenuates high-frequency components and preserves low-frequency components. A simple example of a low-pass filter is the Gaussian filter, which has a bell-shaped response that attenuates high-frequency components. Another example is the square filter.
+Blurring an image involves attenuating or filtering out high-frequency components. The goal is to reduce image noise and/or to reduce the level of detail in the image. In the frequency domain, high-frequency components are far from the center of the image. To apply blurring in the frequency domain, a low-pass filter is needed. The low-pass filter attenuates high-frequency components and preserves low-frequency components. A simple example of a low-pass filter is the Gaussian filter, which has a bell-shaped response that attenuates high-frequency components. Another example is the square filter.
 
 \begin{center}
     \begin{tabular}{lll}
@@ -1399,7 +1431,7 @@ Examples of local features include:
     \item \textbf{Texture features} describe repeating patterns or structures in the image;
 \end{itemize}
 
-Once local features have been identified and extracted (\textbf{feature extraction}) from an image, they can be used to create a feature vector that describes the image (\textbf{feature description)}. This feature vector can then be used for tasks such as object recognition or image matching, by comparing the features of different images and identifying those that are most similar.
+Once local features have been identified and extracted (\textbf{feature extraction}) from an image, they can be used to create a feature vector that describes the image (\textbf{feature description}). This feature vector can then be used for tasks such as object recognition or image matching, by comparing the features of different images and identifying those that are most similar.
 
 \section*{Why extract features?}
 
@@ -1417,7 +1449,7 @@ Once local features have been identified and extracted (\textbf{feature extracti
 
 \section*{Harris Corner Detector - Mathematical Formulation}
 
-\textbf{A corner is a point whose local neighborhood is characterized by large intensity variation in multiple directions}, and they are considered as important features of an image since \textbf{they are scale invariant}. They are often used in various computer vision and image processing tasks such as object recognition, image registration, and image matching. \textbf{Harris Corner Detector is a frequently used technique} in computer vision and one of the first takes to tackle this corner detection. For more information on the relation between eigenvalues and the ellipsoid containing the points you can check \href{https://guangchun.wordpress.com/2013/02/16/harris-detector/}{here}. \\
+\textbf{A corner is a point whose local neighborhood is characterized by large intensity variation in multiple directions}, and they are considered as important features of an image since \textbf{they are scale invariant}. They are often used in various computer vision and image processing tasks such as object recognition, image registration, and image matching. \textbf{Harris Corner Detector is a frequently used technique} in computer vision and one of the first takes to tackle the corner detection problem. For more information on the Harris Corner Detector (emphasis on the relation between eigenvalues and the ellipsoid containing the points) you can check \href{https://guangchun.wordpress.com/2013/02/16/harris-detector/}{here}. \\
 
 Consider a two-dimensional image $I$ and a patch $W$ of size $m \times m$ centered in $(x_0, y_0)$. We want to evaluate the intensity variation occurred if the window $W$ is shifted by a small amount $(u, v)$. Such variation can be estimated by computing the \textbf{Sum of Squared Differences (SSD)}:
 
@@ -1425,7 +1457,7 @@ Consider a two-dimensional image $I$ and a patch $W$ of size $m \times m$ center
     SSD(u, v) = \sum_{(x,y)}g(x,y)[I(x,y) - I(x+u, y+v)]^2
 \end{equation*}
 
-Where $g(x,y)$ is a window function that can be a rectangular or a Gaussian function (it enables only the pixels in the window). We need to maximize the function $SSD(u,v)$ for corner detection, thus finding the windows (and their centers) in which the intensity variation is maximum). Since $u$ and $v$ are small, the shifted intensity $I(x+u, y+v)$ can be approximated by the first-order Taylor expansion:
+Where $g(x,y)$ is a window function that only enables the pixels in the window. We need to maximize the function $SSD(u,v)$ for corner detection, thus finding the windows (and their centers) in which the intensity variation is maximum. Since $u$ and $v$ are small, the shifted intensity $I(x+u, y+v)$ can be approximated by the first-order Taylor expansion:
 
 \begin{equation*}
     I(x+u, y+v) \approx I(x,y) + uI_x(x,y) + vI_y(x,y)
@@ -1436,7 +1468,7 @@ Where $I_x$ and $I_y$ are partial derivatives of $I$ in $x$ and $y$ direction re
 \begin{equation*}
     \begin{split}
         SSD(u, v) & = \sum_{(x,y) \in W}[I(x,y) - I(x+u, y+v)]^2 \\ & \approx \sum_{(x,y) \in W}g(x,y)[I(x,y) - (I(x,y) + uI_x(x,y) + vI_y(x,y))]^2 \\
-        & \approx \sum_{(x,y) \in W}[I(x,y) - (I(x,y) + \begin{bmatrix} I_x & I_y \end{bmatrix} \begin{bmatrix} u \\ v \end{bmatrix}]^2 \\
+        & \approx \sum_{(x,y) \in W}[I(x,y) - I(x,y) + \begin{bmatrix} I_x & I_y \end{bmatrix} \begin{bmatrix} u \\ v \end{bmatrix}]^2 \\
         & \approx \sum_{(x,y) \in W}[\begin{bmatrix} I_x & I_y \end{bmatrix} \begin{bmatrix} u \\ v \end{bmatrix}]^2 \\
         & \approx \sum_{(x,y) \in W}[u^2I_x^2+2uvI_xI_y+v^2I_y^2]
     \end{split}
@@ -1636,7 +1668,7 @@ Nobel (1998):
 
 \section*{Harris Corner Detector - Properties}
 
-We would always find the same point on an object, regardless of changes in the image. The Corner detector should be insensitive to:
+We want to always find the same point on an object, regardless of changes in the image. To do so, the Corner detector should be insensitive to:
 
 \begin{itemize}
     \item scale;
@@ -1741,7 +1773,7 @@ Instead of computing $f$ for larger and larger windows, we can implement an algo
 \section*{Implementation}
 
 Pseudocode:
-\begin{minted}{python}
+\begin{minted}[python]
     for each level of the scale space:
         compute the feature response (e.g. Harris, Laplacian)
 
@@ -2221,6 +2253,8 @@ Homografies/Planar Perspective Maps/Projective transformations can be sees as:
 \end{equation*}
 
 \newpage
+
+\begin{comment}
 
 \section*{Camera calibration}
 
@@ -2922,5 +2956,6 @@ Therefore, $W$ can have at most three non zero singular values. \textbf{We will 
 \end{itemize}
 
 
+\end{comment}
 
 \end{document}
