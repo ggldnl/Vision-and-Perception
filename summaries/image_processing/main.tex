@@ -2104,6 +2104,45 @@ One problem is that \textbf{the descriptor vector may match more than one refere
 
 \newpage
 
+\section*{Invariance properties}
+
+\begin{itemize}
+    \item \textbf{Canny edge detector}:
+    \begin{itemize} 
+        \item \textbf{Rotation Invariant}: Both yes and no. Will an edge that is detected in the original image also be detected after rotating the image? Theorically yes, but the output edges will change.
+        \item \textbf{Scale Invariant}: No, the Canny edge detector is not scale invariant. The detected edges may vary if the image is scaled.
+        \item \textbf{Intensity Shift Invariant}: Yes, the Canny edge detector is intensity shift invariant. It detects edges based on intensity gradients, so shifting the overall intensity does not affect the results.
+        \item \textbf{Intensity Scale Invariant}: Yes, the Canny edge detector is intensity scale invariant. It calculates gradients and applies a threshold, which is relative to the image's intensity. Scaling the intensity uniformly across the image will not affect the edge detection.
+    \end{itemize}
+
+    \item \textbf{Harris corner detector}:
+    \begin{itemize}
+        \item \textbf{Rotation Invariant}: Yes, the Harris corner detector is rotation invariant. The detected corners will not change if the image is rotated.
+        \item \textbf{Scale Invariant}: No, the Harris corner detector is not scale invariant. The detected corners may vary if the image is scaled.
+        \item \textbf{Intensity Shift Invariant}: Yes, the Harris corner detector is intensity shift invariant. It detects croenrs based on intensity gradients, so shifting the overall intensity does not affect the results (only derivatives are used, $I \rightarrow I + b$).
+        \item \textbf{Intensity Scale Invariant}: Partially, because of the fixed threshold on local maxima. Yes if the threshold is relative to the image's intensity. Scaling the intensity uniformly across the image will not affect the edge detection if we account for it with the thresold.
+    \end{itemize}
+
+    \item \textbf{LoG (Laplacian of Gaussian) blob detector}:
+    \begin{itemize}
+        \item \textbf{Rotation Invariant}: Yes, the LoG blob detector is rotation invariant. It convolves the image with a Laplacian of Gaussian filter, which is rotationally symmetric.
+        \item \textbf{Scale Invariant}: Yes, the LoG blob detector is scale invariant. The Laplacian of Gaussian operator is applied at multiple scales to detect blobs of different sizes.
+        \item \textbf{Intensity Shift Invariant}: Yes, the LoG blob detector is intensity shift invariant. It calculates responses based on the second derivative of intensity, so shifting the overall intensity does not affect the results.
+        \item \textbf{Intensity Scale Invariant}: Yes, the LoG blob detector is intensity scale invariant. The Laplacian of Gaussian operator applies a scale-normalized filter, so scaling the intensity uniformly across the image will not affect the blob detection.
+    \end{itemize}
+
+    \item \textbf{SIFT (Scale-Invariant Feature Transform)}:
+    \begin{itemize}
+        \item \textbf{Rotation Invariant}: Yes, SIFT is rotation invariant. It uses orientation histograms to compute features that are invariant to image rotation.
+        \item \textbf{Scale Invariant}: Yes, SIFT is scale invariant. It applies scale-space extrema detection to detect features at different scales.
+        \item \textbf{Intensity Shift Invariant}: Yes, SIFT is intensity shift invariant. It uses normalized gradient magnitudes to calculate feature descriptors, which are invariant to intensity shifts.
+        \item \textbf{Intensity Scale Invariant}: Yes, SIFT is intensity scale invariant. It uses a scale-normalized Gaussian kernel in the construction of the scale-space pyramid, making it invariant to intensity scaling.
+    \end{itemize}
+
+\end{itemize}
+
+\newpage
+
 \section*{Homografy}
 
 Homography refers to a mathematical transformation that relates the coordinates of points on a plane to the coordinates of those same points when viewed from a different perspective or angle. \\
