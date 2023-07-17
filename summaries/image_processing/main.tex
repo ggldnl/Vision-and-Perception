@@ -9,7 +9,7 @@
 
 % arrows
 \usepackage{tikz}
-\usetikzlibrary {arrows.meta}
+\usetikzlibrary{arrows.meta}
 
 % links
 \usepackage{hyperref}
@@ -33,10 +33,41 @@
 \author{Daniel Gigliotti}
 \date{}
 
+% section dots in toc
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\l@section}
+  {\hfil}
+  {\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill}
+  {}{}
+\makeatother
+
+% non-maximum suppression image
+\def\pixelmap{{%
+{2,2,2,1,0,0,0,0,0},
+{1,2,2,1,0,0,1,0,0},
+{1,1,2,2,2,1,0,0,0},
+{0,1,1,2,2,1,1,0,0},
+{0,1,1,1,2,2,1,1,0},
+{0,0,0,1,2,2,2,1,0},
+{0,0,0,0,1,2,2,2,1},
+{0,0,0,0,1,1,2,2,1},
+{0,0,0,1,0,1,2,2,2},
+}}
+
+\colorlet{color0}{white}
+\colorlet{color1}{gray}
+\colorlet{color2}{black}
+
 \begin{document}
 
 \maketitle
 
+\tableofcontents
+
+\newpage
+
+\addcontentsline{toc}{section}{Images as functions}
 \section*{Images as functions}
 
 An image is a 3D tensor of numbers. 
@@ -97,6 +128,7 @@ This formulation holds for single-channel images. A color image is composed of t
 
 \newpage
 
+\addcontentsline{toc}{section}{Image processing}
 \section*{Image processing}
 
 We have two types of image processing:
@@ -107,6 +139,7 @@ are mapped to other points without changing their colors;
     \item \textbf{image filtering} changes the range (pixel values) of the image; the colors of the image are altered without changing the individual pixel position; 
 \end{itemize}
 
+\addcontentsline{toc}{section}{Image filtering}
 \section*{Image filtering}
 
 We have two types of image filtering:
@@ -134,6 +167,7 @@ Filtering allows us to make a new image whose pixels are a combination of the or
 
 \newpage
 
+\addcontentsline{toc}{section}{Point processing}
 \section*{Point processing}
 
 Point processing in image filtering is a technique where a single pixel in an image is processed independently of its neighboring pixels. This is in contrast to neighborhood (or spatial) processing, where the value of a pixel is determined by the values of neighboring ones.
@@ -151,12 +185,14 @@ Examples of point processing include:
 
 \newpage
 
+\addcontentsline{toc}{section}{Convolution and correlation}
 \section*{Convolution and correlation}
 
 Correlation and convolution are both mathematical operations that are used in signal processing and image processing. 
 
 They involve multiplying a signal/image by a filter kernel. The result of this operation is a new image where each pixel is a weighted sum of the pixels in the original image, but there are important differences between the two.
 
+\addcontentsline{toc}{section}{Correlation}
 \section*{Correlation}
 
 Definition for 2D correlation for image filtering:
@@ -173,6 +209,7 @@ Definition for 2D correlation for image filtering:
 
 Notice the lack of a flip in $I(x+i, y+j)$.
 
+\addcontentsline{toc}{section}{Convolution}
 \section*{Convolution}
 
 Definition for 2D convolution for image filtering:
@@ -189,6 +226,7 @@ Definition for 2D convolution for image filtering:
 
 The patch is flipped both horizontally and vertically.
 
+\addcontentsline{toc}{section}{Correlation and Convolution order}
 \section*{Correlation and Convolution order}
 
 Right: correlation order in the linear combination \\ 
@@ -226,6 +264,7 @@ Left: convolution order in the linear combination
 
 \newpage
 
+\addcontentsline{toc}{section}{Padding}
 \section*{Padding}
 
 Just applying the convolution operator will reduce the size of the image and this is not always desirable. \textbf{Padding} refers to the technique of adding extra rows and columns of zeros around the edges of the image. Padding is commonly used to preserve spatial dimensions during convolutional operations and to prevent information loss at the edges of the feature map.
@@ -240,6 +279,7 @@ There are three common types of padding:
 
 \newpage
 
+\addcontentsline{toc}{section}{Filters}
 \section*{Filters}
 
 The operations applied with \textbf{filters} are typically convolutions and correlations. In both cases we replace a pixel in the new image with a combination (a weighted sum) of the respective pixel in the old image and its neighbors. The neighbors are multiplied by a set of coefficients, known as \textbf{kernel}. \\
@@ -383,6 +423,7 @@ A 2D filter is \textbf{separable} if it can be written as the product of a colum
 
 It is always convenient to use separable filters.
 
+\addcontentsline{toc}{section}{Box filter}
 \section*{Box filter }
 
 The box filter is the simplest kind of filter we can imagine: it simply takes the average of all the pixels under the kernel area. It is linear (it fulfills both the superposition and the homogeneity principles) and separable (can be written as a product of of a column and a row vector). 
@@ -437,6 +478,7 @@ Convolution between an image patch and the box filter:
 
 \newpage
 
+\addcontentsline{toc}{section}{Gaussian filter}
 \section*{Gaussian filter}
 
 \textbf{Gaussian filter} uses the Gaussian function to smooth images and reduce noise; The Gaussian function is a bell-shaped curve that gives more weight to pixels in the center of the filter and less weight to pixels at the edges (weight falls off with distance from center); the resulting smoothing effect preserves edges and details in the image better than box filter; a Gaussian effect can be obtained from a convolution between the image and a Gaussian function; \\
@@ -499,6 +541,7 @@ For example, one common choice is to truncate the Gaussian filter at a distance 
 
 Another heuristic for selecting the truncation distance is to use the standard deviation of the Gaussian distribution. The standard deviation determines the width of the Gaussian function, and choosing the truncation distance based on the standard deviation ensures that the filter considers only the most relevant pixels within a certain distance from the center of the filter.
 
+\addcontentsline{toc}{section}{Difference between Gaussian filter and Box filter}
 \section*{Difference between Gaussian filter and Box filter}
 
 Gaussian filter and box filter are two commonly used image smoothing filters in image processing. Although \textbf{both filters are used for the same purpose of reducing noise and smoothing an image}, they produce different results due to their different characteristics. \\
@@ -518,6 +561,7 @@ In the frequency domain, the box filter and the Gaussian filter have different e
 
 \newpage
 
+\addcontentsline{toc}{section}{Sharpening filters}
 \section*{Sharpening filters}
 
 A sharpening filter is a type of image filter that enhances the edges and details of an image, making it appear sharper. It works by amplifying the high-frequency components of the image, which correspond to the edges and fine details (edges and fine details are high frequency components because there is rapid change in pixel intensity or color). \\
@@ -533,6 +577,7 @@ Here are the steps:
 
 The resulting filter can be applied to other images to enhance their sharpness. However, it's important to note that this technique can also amplify noise in the image, so it should be used with caution.
 
+\addcontentsline{toc}{section}{Linear and non-linear filter}
 \section*{Linear and non-linear filters}
 
 \begin{table}[h!]
@@ -552,6 +597,7 @@ Laplacian Filter & Minimum Filter \\
 
 \newpage
 
+\addcontentsline{toc}{section}{Why is the Gaussian filter linear?}
 \section*{Why is the Gaussian filter linear?}
 
 The Gaussian filter is a linear filter because it satisfies the two fundamental properties of linearity: \textbf{superposition} and \textbf{homogeneity}.\
@@ -563,12 +609,14 @@ The Gaussian filter is a linear filter because it satisfies the two fundamental 
 
 In layman's terms, a filter is linear if its response to a sum of two signals is the same as the sum of the individual responses. This is equivalent to saying that each output pixel is a weighted summation of some number of input pixels. This is not true for non-linear filters, like the Maximum filter, where the output pixel is the maximum among the pixels in the considered window. 
 
+\addcontentsline{toc}{section}{Why is the Gaussian filter separable?}
 \section*{Why is the Gaussian filter separable?}
 
 The Gaussian filter is separable because it can be expressed as the convolution of two 1D Gaussian filters, one applied horizontally and one applied vertically (the proof is omitted). We can apply these filters separately to achieve the same result as applying the full 2D Gaussian filter, but with less computational cost. This is the key reason why the Gaussian filter is commonly used in image processing applications.
 
 \newpage 
 
+\addcontentsline{toc}{section}{Feature Detection and Feature Description}
 \section*{Feature Detection and Feature Description}
 
 \textbf{Feature detection} is the process of finding key points or regions in an image that are relevant for a specific task, such as object recognition or image matching. For example, feature detectors like SIFT (Scale-Invariant Feature Transform) or SURF (Speeded Up Robust Features) can identify distinctive points in an image, such as corners or edges, which can be used to describe the image. \\
@@ -595,6 +643,7 @@ feature matching, feature tracking, ...
 
 \newpage
 
+\addcontentsline{toc}{section}{Edges}
 \section*{Edges}
 
 In computer vision, edges refer to the boundaries between objects or regions of interest in an image. They are \textbf{sudden changes in the intensity or color of an image}, and often highlight important features.
@@ -636,6 +685,7 @@ Same thing for 2D discrete functions: $f(x + 1, y + 1)$ represents an adjacent p
 
 \newpage
 
+\addcontentsline{toc}{section}{Image gradients}
 \section*{Image gradients}
 
 Image gradients are representations of the rate of change in the intensity or color in an image in a particular direction (e.g. $x$ or $y$)
@@ -654,6 +704,7 @@ To attenuate this problem, \textbf{when using derivative filters, it is critical
 
 \newpage
 
+\addcontentsline{toc}{section}{Sobel filter}
 \section*{Sobel filter}
 
 % https://nrsyed.com/2018/02/18/edge-detection-in-images-how-to-derive-the-sobel-operator/
@@ -797,6 +848,7 @@ In practice, these two filters are often used together in a technique called \te
 
 \newpage
 
+\addcontentsline{toc}{section}{Other derivative filters}
 \section*{Other derivative filters}
 
 Depending on how you compute the distance between two pixels, the neighborhood size and so on, you can have different derivative filters:
@@ -925,6 +977,7 @@ Depending on how you compute the distance between two pixels, the neighborhood s
 
 \newpage
 
+\addcontentsline{toc}{section}{Computing image gradients}
 \section*{Computing image gradients}
 
 \begin{itemize}
@@ -932,21 +985,7 @@ Depending on how you compute the distance between two pixels, the neighborhood s
     \begin{center}
     \begin{tikzpicture}
         \draw[step=1cm,color=black] (0, 0) grid (3,3);
-        \node[font = {\large}, black] at (0.5, 2.5) {-1};
-        \node[font = {\large}, black] at (1.5, 2.5) {-2};
-        \node[font = {\large}, black] at (2.5, 2.5) {-1};
-        \node[font = {\large}, black] at (0.5, 1.5) {0};
-        \node[font = {\large}, black] at (1.5, 1.5) {0};
-        \node[font = {\large}, black] at (2.5, 1.5) {0};
-        \node[font = {\large}, black] at (0.5, 0.5) {1};
-        \node[font = {\large}, black] at (1.5, 0.5) {2};
-        \node[font = {\large}, black] at (2.5, 0.5) {1};
 
-        \node[font = {\large}, black] at (-0.5, 1.5) {$S_x = $};
-
-    \end{tikzpicture}
-    \begin{tikzpicture}
-        \draw[step=1cm,color=black] (0, 0) grid (3,3);
         \node[font = {\large}, black] at (0.5, 2.5) {-1};
         \node[font = {\large}, black] at (1.5, 2.5) {0};
         \node[font = {\large}, black] at (2.5, 2.5) {1};
@@ -955,6 +994,22 @@ Depending on how you compute the distance between two pixels, the neighborhood s
         \node[font = {\large}, black] at (2.5, 1.5) {2};
         \node[font = {\large}, black] at (0.5, 0.5) {-1};
         \node[font = {\large}, black] at (1.5, 0.5) {0};
+        \node[font = {\large}, black] at (2.5, 0.5) {1};
+
+        \node[font = {\large}, black] at (-0.5, 1.5) {$S_x = $};
+
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \draw[step=1cm,color=black] (0, 0) grid (3,3);
+
+        \node[font = {\large}, black] at (0.5, 2.5) {-1};
+        \node[font = {\large}, black] at (1.5, 2.5) {-2};
+        \node[font = {\large}, black] at (2.5, 2.5) {-1};
+        \node[font = {\large}, black] at (0.5, 1.5) {0};
+        \node[font = {\large}, black] at (1.5, 1.5) {0};
+        \node[font = {\large}, black] at (2.5, 1.5) {0};
+        \node[font = {\large}, black] at (0.5, 0.5) {1};
+        \node[font = {\large}, black] at (1.5, 0.5) {2};
         \node[font = {\large}, black] at (2.5, 0.5) {1};
 
         \node[font = {\large}, black] at (-0.5, 1.5) {$S_y = $};
@@ -1003,6 +1058,7 @@ Depending on how you compute the distance between two pixels, the neighborhood s
 
 \newpage
 
+\addcontentsline{toc}{section}{Using image gradients for edge detection}
 \section*{Using image gradients for edge detection}
 
 Given a signal
@@ -1027,6 +1083,7 @@ We can focus on peaks in the convolution between the image and a blurring filter
 
 \newpage
 
+\addcontentsline{toc}{section}{Canny Edge detector}
 \section*{Canny Edge detector}
 
 The Canny Edge Detector is a technique that resorts on the gradient of the image to detect
@@ -1053,6 +1110,39 @@ Threshold and linking steps are also referred to as hysteresis.
 
 \newpage
 
+\addcontentsline{toc}{section}{Non-maximum suppression}
+\section*{Non-maximum suppression}
+
+Non-maximum suppression is performed to thin out the edges to a single pixel in width; the algorithm goes through all the points on the gradient intensity matrix and finds the pixels with the maximum value in the edge directions. The purpose of the algorithm is to check if the pixels on the same direction are more or less intense than the ones being processed.
+
+\vspace{2cm}
+
+\begin{center}
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=1cm},
+        ]
+    
+    \foreach \x [count=\i from 0] in {0,1,...,8}
+        \foreach \y [count=\j from 0] in {0,1,...,8}
+        {
+            \def\bit{0}
+                \pgfmathsetmacro{\bit}{\pixelmap[\i][\j]}
+            %\draw[grid] (\x,-2.5) -- (\x,2.5);
+            %\draw[grid] (-2.5,\y) -- (2.5,\y);
+            %\fill[cube, color\bit] (\x,\y) -- +(0, 0.25) -- +(.25, .25) -- +(.25,0) -- cycle;
+            
+            \node[box,fill=color\bit] at (\x, \y) {};
+        }
+
+    \draw[-{Stealth[black]}] (0, 8) -- (8, 0);
+    
+    \end{tikzpicture}
+\end{center}
+
+\newpage
+
+\addcontentsline{toc}{section}{Laplace filter}
 \section*{Laplace filter}
 
 Laplace filter is a \textbf{second derivative filter}. \\
@@ -1134,6 +1224,7 @@ results in a 1D Laplace filter:
 
 \newpage
 
+\addcontentsline{toc}{section}{Laplacian of Gaussian (LoG) filter}
 \section*{Laplacian of Gaussian (LoG) filter}
 
 Instead of convolving the image with the kernel and \textbf{then} taking the derivative (expensive operation since the derivative is taken with respect to the whole image), we can first compute the derivative of the filter (small) and then convolve it with the image. \\
@@ -1149,6 +1240,7 @@ Building off of this procedure we can design an edge detector.
 
 \newpage
 
+\addcontentsline{toc}{section}{Naive Image Downsampling}
 \section*{Naive Image Downsampling}
 
 \textbf{How could we reduce the image size?} A naive approach could be to throw away half the rows and/or columns. \textbf{Why half? Is it enough?} Images are a discrete, sampled, representation of a continuous world. If you undersample the image, like any other kind of signal, you won't be able to reconstruct it without information loss. \\
@@ -1183,6 +1275,7 @@ Note that we could always confuse the signal with one of higher frequency even i
 
 The \textbf{Nyquist sampling theory} states that the sample rate needs to be at least 2 times the highest frequency component (cutoff frequency) of your input signal to prevent aliasing; that rate is called \textbf{Nyquist rate}. Aliasing is a phenomenon where higher frequency components fold back into your signal and cause interference.
 
+\addcontentsline{toc}{section}{How to deal with aliasing?}
 \section*{How to deal with aliasing?}
 
 \begin{itemize}
@@ -1196,6 +1289,7 @@ How much smoothing do we need to avoid aliasing? How many samples do we need to 
 
 \newpage
 
+\addcontentsline{toc}{section}{Gaussian Image Pyramid}
 \section*{Gaussian Image Pyramid}
 
 Image pyramids are a type of multi-scale representation of an image, where the original image is successively down-sampled to create a series of smaller versions, each representing a different level of detail. They are important because they allow us to perform operations such as object detection, feature extraction, and image segmentation at multiple scales, which can be useful in a variety of computer vision applications.
@@ -1212,6 +1306,7 @@ Image pyramids allow us to perform operations on images at different resolutions
 
 \newpage
 
+\addcontentsline{toc}{section}{Laplacian Image Pyramid}
 \section*{Laplacian Image Pyramid}
 
 Going up a level in a Gaussian Image Pyramid we loose features, high frequency components. Mostly large uniform regions are preserved. It is not possible to reconstruct the original image from the image at the upper level in the pyramid alone. This is why we introduce the \textbf{Laplacian Image Pyramid}. \\
@@ -1228,6 +1323,7 @@ Thus, we have both the residual image, which contains the high-frequency details
 
 \newpage
 
+\addcontentsline{toc}{section}{Constructing a Laplacian Pyramid}
 \section*{Constructing a Laplacian Pyramid}
 
 The $k$-th level of Laplacian pyramid can be obtained by the following formula:
@@ -1294,6 +1390,7 @@ plot_all(laplacian_pyr, ['Laplacian ({})'.format(i) for i in range(len(laplacian
 
 \newpage
 
+\addcontentsline{toc}{section}{Steerable pyramid}
 \section*{Steerable pyramid}
 
 A steerable pyramid is a type of image decomposition algorithm that can be used for tasks such as image compression, feature extraction, and object recognition.
@@ -1306,12 +1403,14 @@ Once the steerable pyramid is constructed, it can be used for a variety of image
 
 \newpage
 
+\addcontentsline{toc}{section}{Image frequency}
 \section*{Image frequency}
 
 We can easily think about audio signals as sound waves varying at certain frequencies. High-frequency is a high pitched noise, like a bird chirp, while low frequency sounds are low pitch, like a deep voice or a bass drum. For sound, frequency actually refers to how fast a sound wave is oscillating. As for sound, frequency in images is a rate of change. While sound varies across time, images varies across space. An high frequency image is one where the intensity of pixels changes a lot, a low frequency image may be one that is relatively uniform in brightness or changes very slowly. \\
 
 The Fourier Transform (FT) is an important image processing tool which is used to decompose an image into its frequency components. The output of an FT represents the image in the frequency domain, while the input image is the spatial domain (x, y) equivalent. In the frequency domain image, each point represents a particular frequency contained in the spatial domain image. So, for images with a lot of high-frequency components (edges, corners, and stripes), there will be a number of points in the frequency domain at high frequency values.
 
+\addcontentsline{toc}{section}{Fourier Series}
 \section*{Fourier Series}
 
 The Fourier theorem state that any univariate function (signal) can be expressed as a weighted sum of sines and cosines of various frequencies. 
@@ -1322,6 +1421,7 @@ The Fourier theorem state that any univariate function (signal) can be expressed
 
 Basically, if we add enough of these blocks we can build any periodic signal we want. This thing also works for non-periodic signals, as long as the area under the curve is finite.
 
+\addcontentsline{toc}{section}{Fourier Transform}
 \section*{Fourier Transform}
 
 The mathematical tool used to do this is known as the Fourier Transform:
@@ -1337,8 +1437,6 @@ This is used for continuous signals. What about images? Well, as for sound, freq
     \item a \textbf{low frequency image} may be one that is relatively uniform in brightness or changes very slowly;
 \end{itemize}
 
-\newpage
-
 For discrete signals we will use the discrete Fourier Transform:
 \begin{equation*}
     f(x) = \sum_{k=0}^{N-1} F(x) e^{j2\pi kx / N}
@@ -1349,12 +1447,13 @@ Being images 2D, we use a 2D Fourier Transform:
     f(x,y) = \frac{1}{MN}\sum_{u=0}^{M-1} \sum_{v=0}^{N-1} F(u, v) e^{-j2\pi(ux/M + vy/N)}
 \end{equation*}
 
-The \textbf{Fourier Transform (FT)} is an important image processing tool which is used to decompose an image into its frequency components. The output of a Fourier Transform represents the image in the frequency domain, while the input image is the spatial domain (x, y) equivalent. In the frequency domain image, each point represents a particular frequency contained in the spatial domain image. So, for images with a lot of high-frequency components (edges, corners, and stripes), there will be a number of points in the frequency domain at high frequency values. \textbf{Zero frequency component (DC component) will be at top left corner}. DC components are shifted on the center for ease of visualization, obtaining the \textbf{frequency transform image}.\\ 
+The \textbf{Fourier Transform (FT)} is an important image processing tool which is used to decompose an image into its frequency components. The output of a Fourier Transform represents the image in the frequency domain, while the input image is the spatial domain (x, y) equivalent. In the frequency domain image, each point represents a particular frequency contained in the spatial domain image. So, for images with a lot of high-frequency components (edges, corners, and stripes), there will be a number of points in the frequency domain with high frequency values. \textbf{Zero frequency component (DC component) will be at top left corner}. DC components are shifted on the center for ease of visualization, obtaining the \textbf{frequency transform image}.\\ 
 
 In practice, this is implemented by using the \textbf{fast Fourier Transform (FFT)} algorithm.
 
 \newpage
 
+\addcontentsline{toc}{section}{Convolution theorem}
 \section*{Convolution theorem}
 
 The Fourier Transform of the convolution of two functions is the product of their Fourier transforms:
@@ -1363,7 +1462,7 @@ The Fourier Transform of the convolution of two functions is the product of thei
     F(g * h) = F(g)F(h)
 \end{equation*}
 
-The inverse Fourier Transform of the product of two Fourier Transforms is the convolution of the two Fourier transforms:
+The inverse Fourier Transform of the product of two functions is the convolution of the inverse of the Fourier transforms of the two functions:
 
 \begin{equation*}
     F^{-1}(gh) = F^{-1}(g) * F^{-1}(h)
@@ -1371,6 +1470,7 @@ The inverse Fourier Transform of the product of two Fourier Transforms is the co
 
 \textbf{Convolution in spatial domain is equivalent to multiplication in frequency domain}. Using the convolution theorem, we can implement all types of linear shift-invariant filtering as multiplication in the frequency domain (basically multiply the image with a mask).
 
+\addcontentsline{toc}{section}{Blurring in frequency domain}
 \section*{Blurring in frequency domain}
 
 \begin{itemize}
@@ -1394,6 +1494,7 @@ Blurring an image involves attenuating or filtering out high-frequency component
 
 \newpage
 
+\addcontentsline{toc}{section}{Gaussian vs Box filter in frequency domain}
 \section*{Gaussian vs Box filter in frequency domain}
 
 Both the Gaussian and the Box filter are low-pass filters. \\
@@ -1416,6 +1517,7 @@ Compared to the Box filter, the \textbf{Gaussian filter} is more effective at \t
 
 \newpage
 
+\addcontentsline{toc}{section}{Ideal Low Pass Filter (ILPF)}
 \section*{Ideal Low Pass Filter (ILPF)}
 
 An \textbf{ideal low-pass filter (ILPF)} is defined by:
@@ -1448,6 +1550,7 @@ While \textbf{an ideal low-pass filter cannot be achieved in practice}, various 
 
 \newpage
 
+\addcontentsline{toc}{section}{Invariant local features}
 \section*{Invariant local features}
 
 In image processing, \textbf{local features} refer to distinctive patterns or structures in an image that can be used to identify and describe specific regions of the image. Local features are typically extracted from an image by \textbf{analyzing small regions of the image, rather than the image as a whole}. This approach is known as \textbf{local analysis}. \\
@@ -1468,6 +1571,7 @@ Examples of local features include:
 
 Once local features have been identified and extracted (\textbf{feature extraction}) from an image, they can be used to create a feature vector that describes the image (\textbf{feature description}). This feature vector can then be used for tasks such as object recognition or image matching, by comparing the features of different images and identifying those that are most similar.
 
+\addcontentsline{toc}{section}{Why extract features?}
 \section*{Why extract features?}
 
 \begin{itemize}
@@ -1476,12 +1580,14 @@ Once local features have been identified and extracted (\textbf{feature extracti
     \item \textbf{Image matching};
 \end{itemize}
 
+\addcontentsline{toc}{section}{Corner Detection}
 \section*{Corner Detection}
 
 \textbf{Corners are points in an image where the intensity or color changes significantly in multiple directions}, and they are often associated with the intersection of edges or contours in an image. By detecting these corners, we can identify the locations of objects and their boundaries in an image, as well as extract important information.
 
 \newpage
 
+\addcontentsline{toc}{section}{Harris Corner Detector - Mathematical Formulation}
 \section*{Harris Corner Detector - Mathematical Formulation}
 
 \textbf{A corner is a point whose local neighborhood is characterized by large intensity variation in multiple directions}, and they are considered as important features of an image since \textbf{they are scale invariant}. They are often used in various computer vision and image processing tasks such as object recognition, image registration, and image matching. \textbf{Harris Corner Detector is a frequently used technique} in computer vision and one of the first takes to tackle the corner detection problem. For more information on the Harris Corner Detector (emphasis on the relation between eigenvalues and the ellipsoid containing the points) you can check \href{https://guangchun.wordpress.com/2013/02/16/harris-detector/}{here}. \\
@@ -1573,6 +1679,7 @@ The classification of the points using the eigenvalues of the structure tensor i
 
 \newpage 
 
+\addcontentsline{toc}{section}{Harris Corner Detector - Algorithm}
 \section*{Harris Corner Detector - Algorithm}
 
 The Harris Corner Detector algorithm consists of the following steps:
@@ -1631,6 +1738,7 @@ The Harris Corner Detector algorithm consists of the following steps:
 
 \newpage
 
+\addcontentsline{toc}{section}{Eigenvalues and Eigenvectors computation}
 \section*{Eigenvalues and Eigenvectors computation}
 
 The eigenvectors of a matrix $M$ are the vectors $e$ that satisfy:
@@ -1670,6 +1778,7 @@ Once you have the eigenvectors and the eigenvalues of a matrix $M$, you can rewr
 
 being $M$ of size $d \times d$.
 
+\addcontentsline{toc}{section}{Trace of a matrix}
 \section*{Trace of a matrix}
 
 The trace of a $d\times d$ matrix $M$ is the sum of all the elements in its diagonal:
@@ -1680,6 +1789,7 @@ The trace of a $d\times d$ matrix $M$ is the sum of all the elements in its diag
 
 \newpage
 
+\addcontentsline{toc}{section}{Other Response Functions}
 \section*{Other Response Functions}
 
 We can use other response functions: \\
@@ -1701,6 +1811,7 @@ Nobel (1998):
 
 \newpage
 
+\addcontentsline{toc}{section}{Harris Corner Detector - Properties}
 \section*{Harris Corner Detector - Properties}
 
 We want to always find the same point on an object, regardless of changes in the image. To do so, the Corner detector should be insensitive to:
@@ -1729,6 +1840,7 @@ In edge detection, the goal is to identify boundaries or transitions between reg
 
 \newpage
 
+\addcontentsline{toc}{section}{Blobs}
 \section*{Blobs}
 
 A blob can be defined as am amorphous group of connected pixels that share common properties, such as color or intensity. Blob detection algorithms aim to isolate and extract these regions from an image. Blob detection has several advantages:
@@ -1738,7 +1850,7 @@ A blob can be defined as am amorphous group of connected pixels that share commo
     \item \textbf{Robustness to noise}: Blob detection is often more robust to noise and variations in lighting conditions than corner detection. This is because blobs are typically larger regions of the image and can be more easily distinguished from the background noise. In contrast, corner detection is more sensitive to noise and may produce false positives or miss something in noisy images.
 \end{itemize}
 
-
+\addcontentsline{toc}{section}{Scale Invariant Detection (Blob Detection)}
 \section*{Scale Invariant Detection (Blob Detection)}
 
 We want to build a detection method that will identify features that are invariant to changes in orientation, illumination and \textbf{scale}, such as \textbf{blobs}. We talk about \textbf{blob detection}. \\ 
@@ -1760,6 +1872,7 @@ When constructing the scale space, the process typically starts with an initial 
 The choice of scale increments or decrements depends on the specific implementation or algorithm. In some cases, a constant ratio, such as a doubling or halving of the sigma value, may be used. This ensures a logarithmic scale space, allowing for a more uniform sampling of the image's frequency content.
 \end{comment}
 
+\addcontentsline{toc}{section}{Scale space}
 \section*{Scale space}
 
 The first step is to build the scale space. The scale space refers to a series of images generated by applying Gaussian blurring to the original image at different scales. It is used to analyze the image at multiple levels of detail, allowing the detection of blobs at various sizes.
@@ -1774,6 +1887,7 @@ Once the scale space is constructed, it can be further analyzed using techniques
 
 \newpage
 
+\addcontentsline{toc}{section}{Laplacian of Gaussian (LoG)}
 \section*{Laplacian of Gaussian (LoG)}
 
 A common definition for $f$ is the \textbf{Laplacian of Gaussian (LoG)}, that is the second derivative of the Gaussian filter.
@@ -1825,7 +1939,8 @@ When using the Laplacian of Gaussian (LoG) for blob detection with the scale spa
 
 Once we have all the LoG response images, each with some local maxima, for each feature compute the cross-scale maxima. Save its coordinates along with the scale $(x, y, \sigma)$ .
 
-\section*{Implementation}
+\addcontentsline{toc}{section}{Naive Blob Detector Implementation}
+\section*{Naive Blob Detector Implementation}
 
 Pseudocode:
 \begin{minted}{python}
@@ -1863,6 +1978,7 @@ For more information about the algorithm and a python implementation, you can re
 
 \newpage
 
+\addcontentsline{toc}{section}{Difference of Gaussian (DoG)}
 \section*{Difference of Gaussians (DoG)}
 
 The LoG is very similar to a Difference of Gaussians (DoG), that is a Gaussian minus a slightly smaller Gaussian:
@@ -1895,6 +2011,7 @@ The Difference of Gaussian technique evolved from the Laplacian of Gaussian (LoG
 
 \newpage
 
+\addcontentsline{toc}{section}{Feature Descriptor}
 \section*{Feature Descriptor}
 
 After an object or a region of interest is detected in an image, a feature descriptor is used to represent the detected object or region in a compact and distinctive way. This is necessary because raw pixel values of an image can be noisy, redundant, and not invariant to scale, orientation, and illumination changes, which can make object recognition and matching difficult. \\
@@ -1903,6 +2020,7 @@ A feature descriptor is a representation of an object or a region of interest in
 
 \textbf{Patches with similar content should have similar descriptors}.
 
+\addcontentsline{toc}{section}{Naive Feature Descriptors}
 \section*{Naive Feature Descriptors}
 
 \begin{itemize}
@@ -1913,6 +2031,7 @@ A feature descriptor is a representation of an object or a region of interest in
     \item \textbf{orientation normalization}: use the dominant image gradient direction to normalize the orientation of the patch; this is typically achieved by computing the dominant orientation of the image feature and then rotating the image patch; the problem with this approach is that orientation of an image feature can be sensitive to changes in scale, which can lead to inconsistencies in the descriptor when comparing features at different scales.
 \end{itemize}
 
+\addcontentsline{toc}{section}{Histogram of Oriented Gradients (HOG) Descriptor}
 \section*{Histogram of Oriented Gradients (HOG) Descriptor}
 
 For detailed steps and a python implementation, you can check \href{https://www.analyticsvidhya.com/blog/2019/09/feature-engineering-images-introduction-hog-feature-descriptor/}{this} out.
@@ -1950,6 +2069,7 @@ For detailed steps and a python implementation, you can check \href{https://www.
 
 \newpage
 
+\addcontentsline{toc}{section}{Histogram generation}
 \section*{Histogram generation}
 
 The naive way to generate the histogram is to divide the $0-180$ spectrum (unsigned) into bins (we will use $9$ bins, each spanning $20$ degrees) and to count the occurrences of the orientation. \textbf{This does not take into account the magnitude}. Instead of using the frequency, we can use the gradient magnitude to fill the values in the matrix: 
@@ -1960,6 +2080,7 @@ The naive way to generate the histogram is to divide the $0-180$ spectrum (unsig
 
 \newpage
 
+\addcontentsline{toc}{section}{Scale invariance}
 \section*{Scale invariance}
 
 The HOG descriptor is partially invariant to scale. The HOG descriptor is based on the distribution of gradients in an image, and the gradients are computed over small image patches. \\
@@ -1968,6 +2089,7 @@ When the image is scaled up or down, the size of the patches also changes accord
 
 However, \textbf{if the scale change is too significant, the HOG descriptor may not perform well}. For example, \textbf{if an object is very small in the image, its HOG descriptor may not be distinctive enough for reliable object recognition}. Similarly, \textbf{if an object is very large in the image, its HOG descriptor may become too coarse, resulting in loss of fine-grained details}. Therefore, it is important to carefully choose the scale of the image and the size of the patches when using the HOG descriptor for object recognition.
 
+\addcontentsline{toc}{section}{Scale Invariant Feature Transform (SIFT)}
 \section*{Scale Invariant Feature Transform (SIFT)}
 
 Scale Invariant Feature Transform (SIFT) \textbf{consist of both a detector and a descriptor}. \\
@@ -1990,6 +2112,7 @@ For more information about the SIFT algorithm you can read \href{https://medium.
 
 \newpage
 
+\addcontentsline{toc}{section}{SIFT Detector - keypoint detection}
 \section*{SIFT Detector - Keypoint detection}
 
 The first step of the SIFT algorithm is to detect keypoints in an image. Keypoints are distinctive features in an image that can be used to identify the same object in different images. \\
@@ -2006,6 +2129,7 @@ Now we use those blurred images to generate another set of images, the Differenc
     \includegraphics[width=.6\linewidth]{images/octave_dog.png}
 \end{center}
 
+\addcontentsline{toc}{section}{SIFT Detector - keypoint localization}
 \section*{SIFT Detector - Keypoint localization}
 
 We have generated a scale space and used the scale space to calculate the Difference of Gaussians. Those are used to approximate Laplacian of Gaussian (LoG).
@@ -2016,6 +2140,7 @@ We have generated a scale space and used the scale space to calculate the Differ
 
 One pixel in an image is compared with its 8 neighbors as well as 9 pixels in the next scale and 9 pixels in previous scales. This way, a total of 26 checks are made. If it is a local extrema, it is a potential keypoint. It basically means that keypoint is best represented in that scale (the scale of the considered blurred image in the DoG set $\sigma$). The keypoint is thus identified by $\textbf{x} = \{x, y, \sigma\}$.
 
+\addcontentsline{toc}{section}{SIFT Detector - keypoint localization - keypoint stability}
 \section*{SIFT Detector - Keypoint localization - Keypoint stability}
 
 The previous step produces a lot of keypoints. Some of them lie along an edge, or they don’t have enough contrast. In both cases, they are not as useful as features, so we get rid of them. \\
@@ -2024,6 +2149,7 @@ Removing low contrast features: if the magnitude of the intensity of the blurred
 
 \newpage
 
+\addcontentsline{toc}{section}{SIFT Detector - Orientation assignment}
 \section*{SIFT Detector - Orientation assignment}
 
 The next step consists in assigning an orientation to each keypoint; this provides rotation invariance. \\
@@ -2037,6 +2163,7 @@ For all the levels:
     Furthermore, any peaks above 80\% of the highest peak are converted into a new keypoint; This new keypoint has the same location and scale as the original, but its orientation is different.
 \end{itemize}
 
+\addcontentsline{toc}{section}{SIFT Descriptor - keypoint description}
 \section*{SIFT Descriptor - Keypoint description}
 
 At this point, each keypoint has a location, scale, orientation. Next is to compute a descriptor for the local image region about each keypoint that is highly distinctive and invariant as possible to variations such as changes in viewpoint and illumination. \\
@@ -2054,6 +2181,7 @@ The steps of building the SIFT descriptor are as following:
 
 \newpage
 
+\addcontentsline{toc}{section}{SIFT Descriptor Properties}
 \section*{SIFT Descriptor Properties}
 
 \begin{itemize}
@@ -2065,6 +2193,7 @@ The steps of building the SIFT descriptor are as following:
 
 \newpage
 
+\addcontentsline{toc}{section}{Keypoint matching}
 \section*{Keypoint matching}
 
 Keypoint matching is a technique used in computer vision to identify and match the corresponding keypoints in multiple images. The process involves identifying keypoints in multiple images and then finding the corresponding keypoints between them. 
@@ -2077,6 +2206,7 @@ Keypoint matching is a technique used in computer vision to identify and match t
 
 One problem is that \textbf{the descriptor vector may match more than one reference in the database}.
 
+\addcontentsline{toc}{section}{Feature matching}
 \section*{Feature matching}
 
 \textbf{Given a feature in $I_1$, how to find the best match in $I_2$?}
@@ -2104,6 +2234,7 @@ One problem is that \textbf{the descriptor vector may match more than one refere
 
 \newpage
 
+\addcontentsline{toc}{section}{Invariance properties}
 \section*{Invariance properties}
 
 \begin{itemize}
@@ -2143,6 +2274,7 @@ One problem is that \textbf{the descriptor vector may match more than one refere
 
 \newpage
 
+\addcontentsline{toc}{section}{Homografy}
 \section*{Homografy}
 
 Homography refers to a mathematical transformation that relates the coordinates of points on a plane to the coordinates of those same points when viewed from a different perspective or angle. \\
@@ -2153,6 +2285,7 @@ A homography can be represented by a $3\times3$ matrix and is typically computed
 
 \newpage
 
+\addcontentsline{toc}{section}{RAndom SAmple Consensus (RANSAC)}
 \section*{RAndom SAmple Consensus (RANSAC)}
 
 RANSAC, which stands for \textbf{RAndom SAmple Consensus}, is a robust algorithm commonly used in computer vision and machine learning to estimate parameters of a mathematical model from a set of observed data that contains outliers or noise. \\
@@ -2176,10 +2309,12 @@ The main steps are the following:
 
 \newpage
 
+\addcontentsline{toc}{section}{Image alignment and Image stitching}
 \section*{Image alignment and Image stitching}
 
 Image alignment and image stitching are two related concepts in computer vision that are used to combine multiple images into a larger panorama or composite image. While they are often used together, they refer to different aspects of the image processing pipeline.
 
+\addcontentsline{toc}{section}{Image alignment}
 \section*{Image alignment}
 
 \textbf{Image alignment refers to the process of aligning two or more images so that their content overlaps as closely as possible.} This is typically necessary because images that are taken from different viewpoints or at different times may have different orientations, scales, and perspectives.
@@ -2191,12 +2326,14 @@ Image alignment techniques typically involve:
     \item \textbf{Compute a transformation that maps one image to the other (homography)}; this can be done using \textbf{RANSAC};
 \end{itemize}
 
+\addcontentsline{toc}{section}{Image stitching}
 \section*{Image stitching}
 
 \textbf{Image stitching refers to the process of combining multiple aligned images into a single composite image}. This typically involves blending the overlapping regions of the images together to create a seamless transition, and possibly correcting for distortions and artifacts that may arise during the alignment and blending process. Image stitching is often used in panoramic photography, where a series of images taken from a single viewpoint are stitched together to create a wide-angle view of a scene.
 
 \newpage
 
+\addcontentsline{toc}{section}{Transformations}
 \section*{Transformations}
 
 A transformation refers to the process of modifying the appearance or geometry of an image to achieve a desired effect. \textbf{A transformation $T$ is a coordinate-changing machine}.
@@ -2236,6 +2373,7 @@ A geometric transformation can be global or non-global:
 
 \newpage
 
+\addcontentsline{toc}{section}{Linear transformations}
 \section*{Linear transformations}
 
 Common linear transformations include:
@@ -2273,6 +2411,7 @@ Common linear transformations include:
 
 \textbf{Translation is not a linear transformation} on 2D coordinates.
 
+\addcontentsline{toc}{section}{Affine transformations}
 \section*{Affine transformations}
 
 Any transformation represented by a $3\times 3$ matrix which has $\begin{bmatrix}
