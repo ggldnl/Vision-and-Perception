@@ -88,8 +88,8 @@ f:R^2 \rightarrow R
 $f(x, y)$ gives the intensity at position (x, y). A digital image is a discrete (sampled, quantized) version of this function:
 
 \begin{itemize}
-    \item \textbf{sampling} $\rightarrow$ sample a 2D space on a grid
-    \item \textbf{quantization} $\rightarrow$ clip the value in a grid cell to a specific range (0, 255)
+    \item \textbf{sampling} (domain) $\rightarrow$ sample a 2D space on a grid
+    \item \textbf{quantization} (codomain) $\rightarrow$ clip the value in a grid cell to a specific range (0, 255)
 \end{itemize}
 
 \begin{equation*}
@@ -1713,7 +1713,7 @@ The Harris Corner Detector algorithm consists of the following steps:
     
     \item \textbf{Compute the products of the derivatives} $I_xI_x, I_xI_y, I_yI_y$;
 
-    \item \textbf{Compute the sums of the products of derivatives} at each pixel: the next step is to sum the previously computed products over a small window around each pixel. This is done to obtain a measure of the local structure of the image. We obtain $S_{x^2}(x,y)$, $S_{xy}(x,y) = S_{xy}(x,y) $ and $ S_{y^2}(x,y)$.
+    \item \textbf{Compute the sums of the products of derivatives} in the window: the next step is to sum the previously computed products over a small window around each pixel. This is done to obtain a measure of the local structure of the image. We obtain $S_{x^2}(x,y)$, $S_{xy}(x,y) = S_{xy}(x,y) $ and $ S_{y^2}(x,y)$.
 
     \item \textbf{Define the structure tensor (second moment matrix)} in that pixel:
 
@@ -1879,7 +1879,7 @@ The first step is to build the scale space. The scale space refers to a series o
 
 \begin{itemize}
     \item \textbf{Define a range of scales}: determine the range of scales that identifies the desired range of blob sizes we want to detect;
-    \item \textbf{Generate a Gaussian kernel for each scale}: for each scale compute the Gaussian function with the sigma value of the scale and discretize it into a matrix of appropriate dimensions. The size of the matrix (kernel) can be established using sigma.
+    \item \textbf{Generate a Gaussian kernel for each scale}: for each scale compute the Gaussian function with the sigma value of the scale and discretize it into a matrix of appropriate dimensions.
     \item \textbf{Convolve the image with each Gaussian kernel}: convolve the original image with each Gaussian kernel to obtain a series of blurred images; store each of them in the scale space.
 \end{itemize}
 
@@ -1890,7 +1890,7 @@ Once the scale space is constructed, it can be further analyzed using techniques
 \addcontentsline{toc}{section}{Laplacian of Gaussian (LoG)}
 \section*{Laplacian of Gaussian (LoG)}
 
-A common definition for $f$ is the \textbf{Laplacian of Gaussian (LoG)}, that is the second derivative of the Gaussian filter.
+A common definition for the scale invariant function $f$ is the \textbf{Laplacian of Gaussian (LoG)}, that is the second derivative of the Gaussian filter.
 
 \begin{center}
     \includegraphics[width=.3\linewidth]{images/laplacian_of_gaussian.jpg}    
@@ -2078,6 +2078,10 @@ The naive way to generate the histogram is to divide the $0-180$ spectrum (unsig
     \includegraphics[width=.9\linewidth]{images/hog_histogram.png}
 \end{center}
 
+For each pixel, we have an orientation and a magnitude value (respectively $o$ and $m$). The orientation value $o$ will fall between two bins, say $A$ and $B$.
+The contribution for bin $A$ will be $((B - o) / 20) * m$.
+The contribution for bin $B$ will be $((o - A) / 20) * m$.
+
 \newpage
 
 \addcontentsline{toc}{section}{Scale invariance}
@@ -2173,8 +2177,8 @@ The steps of building the SIFT descriptor are as following:
 \begin{itemize}
     \item use the \textbf{Gaussian blurred image} associated with the keypoint's scale;
     \item take \textbf{image gradients over a $16\times16$ square window} around the detected feature;
-    \item \textbf{rotate the gradient} directions AND locations relative to the keypoint orientation (given by the dominant orientation);
-    \item \textbf{divide the 16x16 window into a $4\times4$ grid of cells};
+    \item \textbf{rotate the gradient} directions AND locations relative to the keypoint orientation (dominant orientation);
+    \item \textbf{divide the 16x16 window into $4\times4$ pixels cells};
     \item \textbf{compute an orientation histogram} with $8$ orientations bins for each cell bins (summing the weighted gradient magnitude);
     \item the \textbf{resulting SIFT descriptor is a length $128$ vector} representing a $4\time4$ histogram array with $8$ orientation bins per histogram;
 \end{itemize}
